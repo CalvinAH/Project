@@ -86,8 +86,11 @@ function createObject(data) {
 	for (var count = 0; count < laptopData.length; count++) //row
 	{
 		property_data = laptopData[count].split(",");
-    Ubrand = arrayFilter(Ubrand,property_data[1],filterHeader,"Company");
-    lapType= arrayFilter(lapType,property_data[3],filterHeader,"TypeName");
+    //Ubrand = arrayFilter(Ubrand,property_data[1],filterHeader,"Company");
+    //lapType= arrayFilter(lapType,property_data[3],filterHeader,"TypeName");
+    let curriedRes = curry(arrayFilter);
+    Ubrand = curriedRes(Ubrand)(property_data[1])(filterHeader)("Company");
+    lapType= curriedRes(lapType)(property_data[3])(filterHeader)("TypeName");
 		if (count != 0) {
 			var obj = new Laptop(property_data[0], property_data[1], property_data[2], property_data[3], property_data[4], property_data[5], property_data[6], property_data[7], property_data[8], property_data[9], property_data[10], property_data[11], property_data[12]);
 			laptopCol[count - 1] = obj;
@@ -109,17 +112,18 @@ function arrayFilter(array, sData, filter, head){// high order function
   return filter(array, head)
 }
 
-function searchCurry (f){ //currying
-  return function (data){
-    return function (fil1){
-      return f(data, fil1);
+function curry (f){ //currying
+  return function (ele1){
+    return function (ele2){
+      return function(ele3){
+        return function(ele4){
+          return f(ele1, ele2, ele3, ele4);
+        }
+      }
       
     }
   }
 }
-
-//let curriedSearch = searchCurry(searchCompanyTable);
-// console.log( curriedSearch(data)(Appl))
 
 
 
