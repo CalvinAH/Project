@@ -1,0 +1,5 @@
+sort data according to theirt type of laptop
+
+filter data based on company and product
+
+Find total amount of brands available
