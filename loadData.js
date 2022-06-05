@@ -11,6 +11,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $("#p1").html("Loading CSV data....");
+  
   $("#n1").html("Note 1:  Makes use of live server extetion to enable the csv file to be loaded by making said folder a local server*");
   $("#n2").html("Note 2:  Changed 490,Chuwi,'Lapbook 15,6',Notebook,15.6,Full HD 1920x1080,Intel Atom x5-Z8350 1.44GHz,4GB,64GB Flash Storage,Intel HD Graphics,Windows 10,1.89kg,248.90 \n \t to 490,Chuwi,'Lapbook 15.6',Notebook,15.6,Full HD 1920x1080,Intel Atom x5-Z8350 1.44GHz,4GB,64GB Flash Storage,Intel HD Graphics,Windows 10,1.89kg,248.90");
   $("#n3").html("Note 3:  Line 1305 also deleted becasue it was empty");
@@ -22,10 +23,10 @@ $(document).ready(function () {
       var objs = createObject(data);
       $('#len').html("Total record(object):"+objs.length);
       $("#brandInt").html("Amount of brands:"+ (Ubrand.length));
-      console.log(Ubrand);
-      console.log(lapType);
+      $('#com').html("Company:"+objs[0].Company);
+      $("#prod").html("Product:"+objs[0].Product);
 		  $("#type").html("Type of laptop:"+ lapType);
-      $("#tb1").html(createTable(data));  //basic html tag
+      $("#tb1").html(createTable(data)); 
     },
     
   )
@@ -81,13 +82,11 @@ function createTable(data) {
 
 function createObject(data) {
 	var laptopData = data.split(/\r?\n|\r/);
-	var laptopCol = []; //array of objects for laptop
+	var laptopCol = []; 
   var property_data = '';
-	for (var count = 0; count < laptopData.length; count++) //row
+	for (var count = 0; count < laptopData.length; count++) 
 	{
 		property_data = laptopData[count].split(",");
-    //Ubrand = arrayFilter(Ubrand,property_data[1],filterHeader,"Company");
-    //lapType= arrayFilter(lapType,property_data[3],filterHeader,"TypeName");
     let curriedRes = curry(arrayFilter);
     Ubrand = curriedRes(Ubrand)(property_data[1])(filterHeader)("Company");
     lapType= curriedRes(lapType)(property_data[3])(filterHeader)("TypeName");
@@ -101,18 +100,18 @@ function createObject(data) {
 	return laptopCol;
 }
 
-const filterHeader = (arr, query) => { //pure function
+const filterHeader = (arr, query) => { 
   return arr.filter(el => el.toLowerCase().indexOf(query.toLowerCase()) == -1)
 }
 
-function arrayFilter(array, sData, filter, head){// high order function
+function arrayFilter(array, sData, filter, head){
   if(array.includes(sData)==false){
     array.push(sData);
   }
   return filter(array, head)
 }
 
-function curry (f){ //currying
+function curry (f){ 
   return function (ele1){
     return function (ele2){
       return function(ele3){
