@@ -4,6 +4,7 @@
 
 
 var Ubrand=[];
+var Uproducts=[];
 var lapType=[];
 $(document).ready(function () {
   $("#title").html("APLC jQuery");
@@ -23,9 +24,11 @@ $(document).ready(function () {
       var objs = createObject(data);
       $('#len').html("Total record(object):"+objs.length);
       $("#brandInt").html("Amount of brands:"+ (Ubrand.length));
-      $('#com').html("Company:"+objs[0].Company);
-      $("#prod").html("Product:"+objs[0].Product);
+      $('#com').html("Companies:"+Ubrand);
+      //$('#com').html("Company:"+objs[0].Company);
 		  $("#type").html("Type of laptop:"+ lapType);
+      $("#prodInt").html("Amount of unique products:"+ (Uproducts.length));
+      $("#prod").html("Products:"+objs[0].Product);
       $("#tb1").html(createTable(data)); 
     },
     
@@ -90,6 +93,7 @@ function createObject(data) {
     let curriedRes = curry(arrayFilter);
     Ubrand = curriedRes(Ubrand)(property_data[1])(filterHeader)("Company");
     lapType= curriedRes(lapType)(property_data[3])(filterHeader)("TypeName");
+    Uproducts = curriedRes(Uproducts)(property_data[2])(filterHeader)("Product");
 		if (count != 0) {
 			var obj = new Laptop(property_data[0], property_data[1], property_data[2], property_data[3], property_data[4], property_data[5], property_data[6], property_data[7], property_data[8], property_data[9], property_data[10], property_data[11], property_data[12]);
 			laptopCol[count - 1] = obj;
@@ -119,7 +123,6 @@ function curry (f){
           return f(ele1, ele2, ele3, ele4);
         }
       }
-      
     }
   }
 }
